@@ -11,17 +11,38 @@ dotenv.config();
 connectDB();
 const app = express();
 
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://sterlingyellowpage.netlify.app"
+// ];
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// };
+
+
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://sterlingyellowpage.netlify.app/"
+  "https://sterlingyellowpaage.netlify.app" // ✅ no trailing slash
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("Request Origin:", origin); // Debugging
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error("Not allowed by CORS: " + origin));
     }
   },
   credentials: true,
