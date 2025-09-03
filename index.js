@@ -14,7 +14,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
    "http://localhost:5174",
-  "https://www.myproductiondomain.com",
+  "https://sterlingyellowpaage.netlify.app/",
 ];
 
 const corsOptions = {
