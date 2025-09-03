@@ -13,8 +13,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-   "http://localhost:5174",
-  "https://sterlingyellowpaage.netlify.app/",
+  "https://sterlingyellowpaage.netlify.app/"
 ];
 
 const corsOptions = {
