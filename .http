@@ -1,0 +1,107 @@
+# POST http://localhost:5000/api/auth/admin/register
+# Content-Type: application/json
+
+# {
+#   "name": "Sprofileview",
+#   "email": "sprofileview@gmail.com",
+#   "phone": "9876543210",
+#   "password": "test1234",
+#   "confirmPassword": "test1234"
+# }
+
+
+
+# POST http://localhost:5000/api/auth/login
+# Content-Type: application/json
+
+# {
+#   "email": "sprofileview@gmail.com",
+#   "password": "test1234"
+# }
+
+# POST http://localhost:5000/api/auth/forgot-password
+# Content-Type: application/json
+
+# {
+#   "email": "sprofileview@gmail.com"
+# }
+
+
+# POST http://localhost:5000/api/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGIwYjc4NWQ0ZDdmZDg1Nzc4MTQwYiIsImlhdCI6MTc1Mzk0MzExNCwiZXhwIjoxNzUzOTQ0MDE0fQ.9oCebCel7o0sovq5EaqBzv5KJrD3pq5RJ1aJRVTSanA
+# Content-Type: application/json
+
+# {
+#   "password": "newpassword123"
+# }
+
+# POST http://localhost:5000/api/users/contactform
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGM0ZjI4YWJiNTM5YTc3YjEwODM3OCIsImlhdCI6MTc1NDAyNTgyNCwiZXhwIjoxNzU0NjMwNjI0fQ.Jf5H7W_qRhlc-osEjDCLWGKS5Ki6mWHVIfOXDelI--M
+# Content-Type: application/json
+
+# {
+#   "name": "John Doe",
+#   "address": "123 Main Street",
+#   "phone": "9876543210",
+#   "subject": "Product Inquiry",
+#   "message": "Hello, I would like to know more about your services."
+# }
+
+
+
+
+
+
+# POST http://localhost:5000/api/auth/reset-password/{{token}}
+# Content-Type: application/json
+
+# {
+#   "password": "newpassword123"
+# }
+
+
+
+
+
+# GET http://localhost:5000/api/users/getuser/688c4f28abb539a77b108378
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGM0ZjI4YWJiNTM5YTc3YjEwODM3OCIsImlhdCI6MTc1NDAzMTQzOCwiZXhwIjoxNzU0NjM2MjM4fQ.dBMn73WhLxI5j97c-UGdZJ8OSAjw31gu5iYkWVRDaHA
+# Content-Type: application/json
+
+# GET http://localhost:5000/api/admin/users
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1NjEwMDMzOSwiZXhwIjoxNzU2NzA1MTM5fQ.ZbH_jqEV-87A9CHOvso0mhmClHYTN1bmz0dHydI4zzo
+# Content-Type: application/json
+
+# PUT http://localhost:5000/api/admin/users/68abf3e701852023e6b5af0c/block
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1NjEwMDMzOSwiZXhwIjoxNzU2NzA1MTM5fQ.ZbH_jqEV-87A9CHOvso0mhmClHYTN1bmz0dHydI4zzo
+# Content-Type: application/json
+
+# {
+#   "status": "Blocked"
+# }
+
+
+# GET http://localhost:5000/api/admin/profile/68abf3e701852023e6b5af0c
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1NjEwMDMzOSwiZXhwIjoxNzU2NzA1MTM5fQ.ZbH_jqEV-87A9CHOvso0mhmClHYTN1bmz0dHydI4zzo
+# Content-Type: application/json
+
+# GET http://localhost:5000/api/admin/all-business/export/excel
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1NjM2MTA0NSwiZXhwIjoxNzU2OTY1ODQ1fQ.iEelG0u9c1pe7Lg_LtBAn5X3LgkF4lzk57rfWn45Buk
+# Content-Type: application/json
+
+
+# POST http://localhost:5000/api/admin/business
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1NjQ0NjM2NiwiZXhwIjoxNzU3MDUxMTY2fQ.kRXDHRz6VR5krENwziSmIXuHl6GIW1T-gXZqUZ200Y4
+# Content-Type: application/json
+
+# {
+#   "name": "Demo Business",
+#   "category": "Restaurant",
+#   "description": "This is a demo business.",
+#   "address": "123 Main Street",
+#   "phone": "9876543210",
+#   "email": "demo@example.com",
+#   "status": "pending"
+# }
+
+
+GET http://localhost:5000/api/user/ads/get-business/
+Content-Type: application/json
