@@ -103,5 +103,17 @@
 # }
 
 
-GET http://localhost:5000/api/user/ads/get-business/
-Content-Type: application/json
+# GET http://localhost:5000/api/user/ads/get-business/
+# Content-Type: application/json
+
+
+# POST http://localhost:5000/api
+# Content-Type: application/json
+
+# {
+#   "name": "John Doe",
+#   "email": "johndoe@example.com",
+#   "phone": "+91 9876543210",
+#   "subject": "Demo Contact",
+#   "message": "This is a test message from REST Client."
+# }

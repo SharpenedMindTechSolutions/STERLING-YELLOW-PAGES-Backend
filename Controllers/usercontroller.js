@@ -4,6 +4,8 @@ import User from "../Models/user.js";
 import Ad from "../Models/Ad.js";
 import cloudinary from "../config/cloudinary.js";
 import business from "../Models/business.js";
+import Contact from "../Models/contactform.js";
+import nodemailer from "nodemailer";
 /* ===================== BUSINESS ===================== */
 
 // Create new business
@@ -290,5 +292,77 @@ export const getBusinessId = async (req, res) => {
   } catch (error) {
     console.error("Error fetching business by ID:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+export const createContact = async (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body;
+
+    // Validation
+    if (!name || !email || !phone || !subject || !message) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const newContact = new Contact({
+      name,
+      email,
+      phone,
+      subject,
+      message,
+    });
+
+    await newContact.save();
+
+    // Setup Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail", 
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, 
+      },
+    });
+
+    // Email content
+    const mailOptions = {
+      from: `"Contact Form" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, 
+      subject: `📩 New Contact Form Submission: ${subject}`,
+      html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background: #f9fafb; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb;">
+      <div style="background: #2563eb; color: white; padding: 16px; text-align: center;">
+        <h1 style="margin: 0; font-size: 20px;">New Contact Submission</h1>
+      </div>
+      <div style="padding: 20px; color: #111827;">
+        <p style="margin: 0 0 10px 0;"><b>Name:</b> ${name}</p>
+        <p style="margin: 0 0 10px 0;"><b>Email:</b> ${email}</p>
+        <p style="margin: 0 0 10px 0;"><b>Phone:</b> ${phone}</p>
+        <p style="margin: 0 0 10px 0;"><b>Subject:</b> ${subject}</p>
+        <p style="margin: 0 0 10px 0;"><b>Message:</b></p>
+        <div style="background: #f3f4f6; padding: 12px; border-radius: 6px; color: #374151; font-style: italic;">
+          ${message}
+        </div>
+      </div>
+      <div style="background: #f3f4f6; padding: 12px; text-align: center; color: #6b7280; font-size: 12px;">
+        <p style="margin: 0;">📬 This message was sent from your website contact form.</p>
+      </div>
+    </div>
+  `,
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    res
+      .status(201)
+      .json({
+        message: "Contact saved & email sent successfully",
+        contact: newContact,
+      });
+  } catch (error) {
+    console.error("Error creating contact:", error);
+    res.status(500).json({ error: "Server error" });
   }
 };
