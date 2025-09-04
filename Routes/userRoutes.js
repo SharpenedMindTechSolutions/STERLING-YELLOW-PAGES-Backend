@@ -11,7 +11,7 @@ import {
   getAllBusiness,
   getBusinessesByCategory,
   getBusinessId,
-  createContact
+  createContact,
 } from "../Controllers/usercontroller.js";
 import { protect } from "../Middleware/authmiddleware.js";
 import multer from "multer";
@@ -47,5 +47,6 @@ router.get("/getall-business", getAllBusiness);
 router.get("/getall-category", getBusinessesByCategory);
 router.get("/get-categorybusiness/:id", getBusinessId);
 router.post("/contactform",createContact);
+router.get("/business/:id",getBusinessId)
 
 export default router;

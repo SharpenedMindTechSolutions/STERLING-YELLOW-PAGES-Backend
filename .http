@@ -103,11 +103,11 @@
 # }
 
 
-# GET http://localhost:5000/api/user/ads/get-business/
-# Content-Type: application/json
+GET http://localhost:5000/api/user/ads/business/68b7ec1c1fa7b03b9973fcd7
+Content-Type: application/json
 
 
-# POST http://localhost:5000/api
+# POST http://localhost:5000/api/user/ads/business
 # Content-Type: application/json
 
 # {
