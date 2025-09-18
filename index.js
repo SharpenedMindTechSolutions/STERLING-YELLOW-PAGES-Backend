@@ -12,14 +12,12 @@ import branchRoutes from "./Routes/branchRoutes.js";
 dotenv.config();
 connectDB();
 const app = express();
-
-const allowedOrigins =  process.env.CLIENT_URL;
-console.log(process.env.CLIENT_URL); 
-
+const allowedOrigin = process.env.CLIENT_URL; 
+console.log("Allowed Origin:", allowedOrigin)
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || origin === allowedOrigin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -29,6 +27,8 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
+export default corsOptions;
 
 app.use(cors(corsOptions));
 app.use(express.json());
