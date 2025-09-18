@@ -16,8 +16,10 @@ import {
   getRecentBusinesses,
   getAllBusinesses,
   exportBusinesses,
-  updateBusinessStatus
+  updateBusinessStatus,
 } from "../Controllers/admincontroller.js";
+
+
 
 import { adminProtect } from "../Middleware/authmiddleware.js";
 
@@ -54,9 +56,20 @@ router.get("/dashboard/recent-businesses", adminProtect, getRecentBusinesses);
 // business list for admin
 router.get("/all-business", adminProtect, getAllBusinesses);
 router.get("/all-business/export/excel", adminProtect, exportBusinesses);
-router.post("/create-business",  upload.single("image"), adminProtect, addBusiness);
-router.put("/business/:id",adminProtect,  upload.single("image"),updateBusiness);
+router.post(
+  "/create-business",
+  upload.single("image"),
+  adminProtect,
+  addBusiness
+);
+router.put(
+  "/business/:id",
+  adminProtect,
+  upload.single("image"),
+  updateBusiness
+);
 router.delete("/business/:id", adminProtect, deleteBusiness);
 router.put("/business/:id/status", adminProtect, updateBusinessStatus);
+
 
 export default router;

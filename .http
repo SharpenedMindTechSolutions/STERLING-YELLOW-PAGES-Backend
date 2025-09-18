@@ -103,12 +103,44 @@
 # }
 
 
-GET http://localhost:5000/api/user/ads/business/68b7ec1c1fa7b03b9973fcd7
-Content-Type: application/json
+# GET http://localhost:5000/api/user/ads/business/68b7ec1c1fa7b03b9973fcd7
+# Content-Type: application/json
 
 
 # POST http://localhost:5000/api/user/ads/business
 # Content-Type: application/json
+
+# {
+#   "name": "John Doe",
+#   "email": "johndoe@example.com",
+#   "phone": "+91 9876543210",
+#   "subject": "Demo Contact",
+#   "message": "This is a test message from REST Client."
+# }
+
+
+
+# POST http://localhost:5000/api/admin/category/create-category
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1ODA4OTA1NywiZXhwIjoxNzU4NjkzODU3fQ.SJ5a-0q1onLYM0-Xql6I5pCXFPcEOhjLYr7mfhCX5KA
+
+# {
+#   "name": "Electronics"
+# }
+
+
+# GET  http://localhost:5000/api/admin/category/get-category
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1ODA4OTA1NywiZXhwIjoxNzU4NjkzODU3fQ.SJ5a-0q1onLYM0-Xql6I5pCXFPcEOhjLYr7mfhCX5KA
+
+# {
+#   "name": "Electronics"
+# }
+
+
+
+# POST http://localhost:5000/api/admin/branch/create
+#  Content-Type: application/json
 
 # {
 #   "name": "John Doe",

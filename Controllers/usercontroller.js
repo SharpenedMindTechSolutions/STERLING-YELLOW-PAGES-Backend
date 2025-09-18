@@ -6,6 +6,9 @@ import cloudinary from "../config/cloudinary.js";
 import business from "../Models/business.js";
 import Contact from "../Models/contactform.js";
 import nodemailer from "nodemailer";
+import Category from "../Models/Category.js";
+import BranchRegion from "../Models/branchRegion.js";
+
 /* ===================== BUSINESS ===================== */
 
 // Create new business
@@ -364,5 +367,31 @@ export const createContact = async (req, res) => {
   } catch (error) {
     console.error("Error creating contact:", error);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+// get all  category 
+export const getCategories = async (req, res) => {
+  try {
+    const { search = "" } = req.query;
+    const query = search ? { name: { $regex: search, $options: "i" } } : {};
+    const categories = await Category.find(query).sort({ createdAt: -1 });
+    res.json({
+      categories,
+      totalItems: categories.length,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// get all branch regions
+export const getBranchRegions = async (req, res) => {
+  try {
+    const regions = await BranchRegion.find();
+    res.status(200).json(regions);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

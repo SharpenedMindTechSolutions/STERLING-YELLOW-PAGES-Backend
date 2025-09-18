@@ -6,16 +6,16 @@ import authRoutes from "./Routes/authRoutes.js";
 import userRoutes from "./Routes/userRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
 import adRoutes from "./Routes/adRoutes.js";
+import categoryRoutes from "./Routes/categoryRoutes.js";
+import branchRoutes from "./Routes/branchRoutes.js";
 
 dotenv.config();
 connectDB();
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173", 
-   process.env.CLIENT_URL, 
-];
-console.log(process.env.CLIENT_URL) 
+const allowedOrigins =  process.env.CLIENT_URL;
+console.log(process.env.CLIENT_URL); 
+
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -30,7 +30,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.json({ limit: "10mb" }));
@@ -41,8 +40,11 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth/", authRoutes);
 app.use("/api/user/ads/", userRoutes);
+
 app.use("/api/admin/", adminRoutes);
 app.use("/api/admin/ads/", adRoutes);
+app.use("/api/admin/category/", categoryRoutes);
+app.use("/api/admin/branch/",  branchRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Start server
