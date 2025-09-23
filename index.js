@@ -33,7 +33,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-export default corsOptions;
+export default corsOptions; 
 
 app.use(cors(corsOptions));
 app.use(express.json());
