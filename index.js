@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./DB/connectDB.js";
-import authRoutes from "./Routes/authRoutes.js";
+import authRoutes from "./Routes/authRoutes.js"; 
 import userRoutes from "./Routes/userRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
 import adRoutes from "./Routes/adRoutes.js";
@@ -12,15 +12,20 @@ import branchRoutes from "./Routes/branchRoutes.js";
 dotenv.config();
 connectDB();
 const app = express();
-const allowedOrigin = process.env.CLIENT_URL; 
-console.log("Allowed Origin:", allowedOrigin)
+
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  process.env.CLIENT_URL,
+];
+
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || origin === allowedOrigin) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error("Not allowed by CORS: " + origin));
     }
   },
   credentials: true,
@@ -44,7 +49,7 @@ app.use("/api/user/ads/", userRoutes);
 app.use("/api/admin/", adminRoutes);
 app.use("/api/admin/ads/", adRoutes);
 app.use("/api/admin/category/", categoryRoutes);
-app.use("/api/admin/branch/",  branchRoutes);
+app.use("/api/admin/branch/", branchRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Start server

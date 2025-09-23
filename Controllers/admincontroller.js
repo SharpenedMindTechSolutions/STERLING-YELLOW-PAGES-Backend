@@ -254,17 +254,23 @@ export const updateAdminProfile = async (req, res) => {
 // ✅ Add New Business (Admin)
 export const addBusiness = async (req, res) => {
   try {
-    const { name, category, description, address, phone, status, email } =
-      req.body;
+    let {
+      name,
+      category,
+      description,
+      address,
+      phone,
+      status,
+      email,
+      googleMapUrl,
+      specifications, 
+    } = req.body;
 
     if (!name || !category) {
-      return res
-        .status(400)
-        .json({ message: "Name and category are required" });
+      return res.status(400).json({ message: "Name and category are required" });
     }
 
     let imageUrl = null;
-
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "business_logos",
@@ -272,10 +278,18 @@ export const addBusiness = async (req, res) => {
       imageUrl = result.secure_url;
     }
 
-    // ✅ Get admin id from middleware
     const adminId = req.admin?._id;
     if (!adminId) {
       return res.status(401).json({ message: "Not authorized, admin missing" });
+    }
+
+    // 🔹 Parse specifications if it is a string
+    if (specifications && typeof specifications === "string") {
+      try {
+        specifications = JSON.parse(specifications);
+      } catch (err) {
+        specifications = [];
+      }
     }
 
     const newBusiness = new Business({
@@ -286,8 +300,10 @@ export const addBusiness = async (req, res) => {
       address: address || "",
       phone: phone || "",
       email: email || "",
-      status: status,
+      status: status || "pending",
       images: imageUrl ? [imageUrl] : [],
+      googleMapUrl: googleMapUrl || "",
+      specifications: Array.isArray(specifications) ? specifications : [],
     });
 
     await newBusiness.save();
@@ -301,6 +317,7 @@ export const addBusiness = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // ✅ Delete Business by ID (Admin)
 export const deleteBusiness = async (req, res) => {
@@ -325,7 +342,7 @@ export const deleteBusiness = async (req, res) => {
 export const updateBusiness = async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = req.body;
+    const updates = { ...req.body };
 
     const business = await Business.findById(id);
     if (!business) {
@@ -340,6 +357,17 @@ export const updateBusiness = async (req, res) => {
       updates.images = [result.secure_url];
     }
 
+    // ✅ Parse specifications if sent as JSON string
+    if (updates.specifications && typeof updates.specifications === "string") {
+      try {
+        updates.specifications = JSON.parse(updates.specifications);
+      } catch (err) {
+        console.warn("Failed to parse specifications:", err);
+        updates.specifications = [];
+      }
+    }
+
+    // ✅ Update business fields including googleMapUrl
     Object.keys(updates).forEach((key) => {
       business[key] = updates[key];
     });
@@ -352,6 +380,7 @@ export const updateBusiness = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 export const updateBusinessStatus = async (req, res) => {
   try {

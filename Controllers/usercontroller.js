@@ -14,9 +14,11 @@ import BranchRegion from "../Models/branchRegion.js";
 // Create new business
 // your Cloudinary config
 
+
+
 export const createaddBusiness = async (req, res) => {
   try {
-    const {
+    let {
       name,
       category,
       description,
@@ -24,20 +26,20 @@ export const createaddBusiness = async (req, res) => {
       phone,
       email,
       website,
-      logo,
+      googleMapUrl,
+      specifications,
     } = req.body;
 
-    if (!name || !category) {
-      return res
-        .status(400)
-        .json({ message: "Name and category are required" });
+    if (typeof specifications === "string") {
+      specifications = JSON.parse(specifications);
     }
-
+    if (!name || !category) {
+      return res.status(400).json({ message: "Name and category are required" });
+    }
     const userId = req.user?._id;
     if (!userId) {
       return res.status(401).json({ message: "Not authorized, user missing" });
     }
-
     let imageUrl = "";
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
@@ -45,7 +47,6 @@ export const createaddBusiness = async (req, res) => {
       });
       imageUrl = result.secure_url;
     }
-
     const newBusiness = new Business({
       user: userId,
       name,
@@ -55,13 +56,12 @@ export const createaddBusiness = async (req, res) => {
       phone: phone || "",
       email: email || "",
       website: website || "",
-      logo: logo || "",
+      googleMapUrl: googleMapUrl || "",
+      specifications: Array.isArray(specifications) ? specifications : [], 
       status: "pending",
       images: imageUrl ? [imageUrl] : [],
     });
-
     await newBusiness.save();
-
     res.status(201).json({
       message: "Business added successfully",
       business: newBusiness,
@@ -71,6 +71,7 @@ export const createaddBusiness = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Get businesses for logged-in user
 export const getUserBusinesses = asyncHandler(async (req, res) => {
@@ -96,11 +97,49 @@ export const getUserBusinesses = asyncHandler(async (req, res) => {
 });
 
 // ✅ Update business (only allowed fields)
+// export const updateBusiness = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     // whitelist fields user can update
+//     const allowedFields = [
+//       "name",
+//       "category",
+//       "description",
+//       "address",
+//       "phone",
+//       "email",
+//     ];
+
+//     const updates = {};
+//     allowedFields.forEach((field) => {
+//       if (req.body[field] !== undefined) {
+//         updates[field] = req.body[field];
+//       }
+//     });
+
+//     const updatedBusiness = await Business.findByIdAndUpdate(
+//       id,
+//       { $set: updates },
+//       { new: true, runValidators: true }
+//     );
+
+//     if (!updatedBusiness) {
+//       return res.status(404).json({ message: "Business not found" });
+//     }
+
+//     res.json(updatedBusiness);
+//   } catch (error) {
+//     console.error("Error updating business:", error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
 export const updateBusiness = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // whitelist fields user can update
+    // Whitelist fields user can update
     const allowedFields = [
       "name",
       "category",
@@ -108,12 +147,22 @@ export const updateBusiness = async (req, res) => {
       "address",
       "phone",
       "email",
+      "googleMapUrl",
+      "specifications", 
     ];
 
     const updates = {};
     allowedFields.forEach((field) => {
       if (req.body[field] !== undefined) {
-        updates[field] = req.body[field];
+        if (field === "specifications" && typeof req.body[field] === "string") {
+          try {
+            updates[field] = JSON.parse(req.body[field]);
+          } catch (err) {
+            return res.status(400).json({ message: "Invalid specifications format" });
+          }
+        } else {
+          updates[field] = req.body[field];
+        }
       }
     });
 
@@ -133,6 +182,7 @@ export const updateBusiness = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // ✅ Delete business
 export const deleteBusiness = async (req, res) => {
@@ -298,8 +348,6 @@ export const getBusinessId = async (req, res) => {
   }
 };
 
-
-
 export const createContact = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
@@ -321,17 +369,17 @@ export const createContact = async (req, res) => {
 
     // Setup Nodemailer transporter
     const transporter = nodemailer.createTransport({
-      service: "gmail", 
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, 
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     // Email content
     const mailOptions = {
       from: `"Contact Form" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, 
+      to: process.env.EMAIL_USER,
       subject: `📩 New Contact Form Submission: ${subject}`,
       html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background: #f9fafb; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb;">
@@ -358,20 +406,17 @@ export const createContact = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    res
-      .status(201)
-      .json({
-        message: "Contact saved & email sent successfully",
-        contact: newContact,
-      });
+    res.status(201).json({
+      message: "Contact saved & email sent successfully",
+      contact: newContact,
+    });
   } catch (error) {
     console.error("Error creating contact:", error);
     res.status(500).json({ error: "Server error" });
   }
 };
 
-
-// get all  category 
+// get all  category
 export const getCategories = async (req, res) => {
   try {
     const { search = "" } = req.query;

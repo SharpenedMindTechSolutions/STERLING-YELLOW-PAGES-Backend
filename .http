@@ -149,3 +149,23 @@
 #   "subject": "Demo Contact",
 #   "message": "This is a test message from REST Client."
 # }
+
+
+# POST http://localhost:5000/api/user/ads/create-business
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmNDJmMDE4NTIwMjNlNmI1YWYwZiIsImlhdCI6MTc1ODUxNDc4NiwiZXhwIjoxNzU5MTE5NTg2fQ.cCk1nKjdUYGQDiw5RSOe6QTuvfYFS8qD3y7Mi6AGv3o
+
+# {
+#   "name": "ABC Motors",
+#   "category": "Automobiles - Car Service",
+#   "description": "Best car service and repair center in Madurai. We provide digital meter repairs, AC service, and general maintenance.",
+#   "address": "24/38 Middle Street, Pandian Nagar, Madurai",
+#   "phone": "9876543210",
+#   "email": "abc.motors@example.com",
+#   "website": "https://abcmotors.in",
+#   "googleMapUrl": "https://www.google.com/maps/place/Madurai",
+#   "specifications": [
+#     { "name": "Arun", "role": "Manager", "number": "9999999999" },
+#     { "name": "Ravi", "role": "Mechanic", "number": "8888888888" }
+#   ]
+# }
