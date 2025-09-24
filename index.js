@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./DB/connectDB.js";
-import authRoutes from "./Routes/authRoutes.js"; 
+import authRoutes from "./Routes/authRoutes.js";
 import userRoutes from "./Routes/userRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
 import adRoutes from "./Routes/adRoutes.js";
@@ -15,15 +15,15 @@ const app = express();
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  "https://www.sterlingonnet.com",
   "http://localhost:5173",
-
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
-    } else { 
+    } else {
       callback(new Error("Not allowed by CORS: " + origin));
     }
   },
@@ -32,8 +32,8 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-export default corsOptions;  
- 
+export default corsOptions;
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.json({ limit: "10mb" }));
