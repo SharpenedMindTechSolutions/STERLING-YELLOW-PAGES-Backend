@@ -13,14 +13,10 @@ dotenv.config();
 connectDB();
 const app = express();
 
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  "https://www.sterlingonnet.com",
-  "http://localhost:5173",
-];
+const allowedOrigins = process.env.CLIENT_URL ;
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: function (origin, callback) { 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
