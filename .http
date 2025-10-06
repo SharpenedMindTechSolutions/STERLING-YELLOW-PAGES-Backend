@@ -129,13 +129,11 @@
 # }
 
 
-# GET  http://localhost:5000/api/admin/category/get-category
-# Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1ODA4OTA1NywiZXhwIjoxNzU4NjkzODU3fQ.SJ5a-0q1onLYM0-Xql6I5pCXFPcEOhjLYr7mfhCX5KA
+GET  http://localhost:5000/api/admin/category/get-category
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWJmM2U3MDE4NTIwMjNlNmI1YWYwYyIsImlhdCI6MTc1OTcyNjUxMSwiZXhwIjoxNzYwMzMxMzExfQ.CQBgcXOJh9gQOKKgPadAirbOB4rZzB-6ttVusnZ5tOg
 
-# {
-#   "name": "Electronics"
-# }
+
 
 
 
